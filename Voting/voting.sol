@@ -4,7 +4,6 @@ pragma solidity ^0.8.7;
 contract voting{
 
 
-//replace candidate with aspirant
 struct Candidate {
         uint id;
         string name;

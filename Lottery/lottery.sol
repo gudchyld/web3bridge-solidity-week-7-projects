@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-//After 90 days, players can come and check their win status
+//
 
 contract lottery {
 
@@ -55,7 +55,7 @@ contract lottery {
         }
         return true;
     }
-    
+
     //Users can come and check their winning status
     function checkWinning() public returns(string memory) {
         require(havePlayed[msg.sender]);
