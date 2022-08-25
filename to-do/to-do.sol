@@ -1,46 +1,41 @@
 // SPDX-License-Identifier: GPL-3.0;
 pragma solidity ^ 0.8.7;
   
-  //Note to Self
-  //Update the Names??
-  contract ToDo{
+contract ToDo{
 
-  
-    struct Task { 
-          string taskName;
-          bool isDone;
-    }
+  struct Task{
+    string  taskName;
+    bool isComplete;
+  }
 
-      mapping(address => Task[]) private Users;
+  mapping(address => Task[]) taskCreators;
 
-      // Add a task
-      function addTask(string memory _task) external{
-      
-        Users[msg.sender].push(Task(_task, false));
-      }
+  event taskAdded(string taskName);
+  event taskStatusUpdated(string taskName, uint index);
+  event taskDeleted(uint index);
 
-      //function to get details of a task 
-      function getTask(uint _taskIndex) external view returns(Task memory) {
-    
-      Task memory task = Users[msg.sender][_taskIndex];
-        return task;
-      }
+  function addTask(string memory _taskName) external{
+    taskCreators[msg.sender].push(Task(_taskName, false));
+    emit taskAdded(_taskName);
+  }
 
-      //function to update status of a task
-      function updateStatus(uint _taskIndex, bool _status) external {
-    
-        Users[msg.sender][_taskIndex].isDone = _status;
-      }
+  function getTask(uint _taskIndex) public view returns(Task memory) {
+    Task memory task = taskCreators[msg.sender][_taskIndex];
+    return task;
+  }
 
-      //function to delete a task
-      function deleteTask(uint _taskIndex) external {
-    
-        delete Users[msg.sender][_taskIndex];
-      }
+  function updateTask(string memory _taskName, uint _taskIndex) external{
+    Task memory task = taskCreators[msg.sender][_taskIndex];
+    task.taskName = _taskName;
+    emit taskStatusUpdated(_taskName, _taskIndex);
+  }
 
-      //function to get task count.
-      function getTaskCount() external view returns(uint) {
-    
-        return Users[msg.sender].length;
-      }
+  function toggleTaskComplete(uint _taskIndex)external{
+    taskCreators[msg.sender][_taskIndex].isComplete = false;
+  }
+
+  function deleteTask(uint _taskIndex) external{
+    delete taskCreators[msg.sender][_taskIndex];
+    emit taskDeleted(_taskIndex);
+  }
 }
