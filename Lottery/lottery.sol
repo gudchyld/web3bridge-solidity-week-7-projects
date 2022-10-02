@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-//
+/*Implementation of a lottery system where users pick 6 random numbers for a chance to win the mega prize*/
 
 contract lottery {
 
